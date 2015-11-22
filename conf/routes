@@ -8,11 +8,9 @@ GET     /                           controllers.Application.index
 # Rest API
 POST    /api/vessels               controllers.Application.addVessel
 GET     /api/vessels               controllers.Application.fetchVessels
-PUT     /api/vessels/:name         controllers.Application.updateVessel(name: String)
+PUT     /api/vessels/:id           controllers.Application.updateVessel(id: String)
 GET     /api/vessels/:id           controllers.Application.fetchVessel(id: String)
-DELETE  /api/vessels/:name         controllers.Application.deleteVessel(name: String)
-
-# --------------------------------------
+DELETE  /api/vessels/:id           controllers.Application.deleteVessel(id: String)
 
 OPTIONS /*path                      controllers.Application.options(path)
 

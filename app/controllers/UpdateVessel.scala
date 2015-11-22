@@ -8,22 +8,38 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.Json
 import play.api.mvc.Action
 import play.api.mvc.BodyParsers.parse
+import reactivemongo.core.commands.LastError
 
-import scala.concurrent.Future
+/**
+  * Defines the operation for updating a vessel
+  */
+trait UpdateVessel extends BaseOperation {
 
-trait UpdateVessel extends Base {
-
+  /**
+    * Handles the http request for updating a vessel.
+    *
+    * Updates the vessel with `id` if that vessel can be found in the database collection.
+    * @param id the `id` of the vessel to be updated
+    * @return an `Action` that returns a `Future[Result]`.
+    *         Possible results are:
+    *           `Ok`                  -> vessel successfully updated
+    *           `NotFound`            -> the vessel with `id` doesn't exist in db collection
+    *           `InternalServerError` -> unexpected errors from MongoDB
+    */
   def updateVessel(id: String) = Action.async(parse.json) { request =>
-    request.body.validate[Vessel].map { vessel =>
-      vesselCollection.update(Json.obj("_id" -> id), vessel).map { lastError =>
-            Logger.debug(s"Successfully inserted with LastError: $lastError")
-            Ok( s""""The vessel was successfully updated"""").as("application/json")
-        }.recover({case _ => InternalServerError})
-    }.getOrElse(
-      Future.successful(
-        BadRequest(""""Invalid json format for type Vessel"""")
-        .as("application/json")
-      )
-    )
+    request.body.validate[Vessel]
+      .map(vessel => update(id, vessel))
+      .getOrElse(badRequest())
   }
+
+  private def update(id: String, vessel: Vessel) =
+    vesselCollection.update(Json.obj("_id" -> id), vessel)
+      .map({
+        case le: LastError if le.updated == 0 =>
+          notFound(id, "update")
+        case _ =>
+          Logger.info(s"The vessel with id: $id successfully updated.")
+          Ok(s""""The vessel with id: $id was successfully updated."""").as("application/json")
+      })
+      .recover(recoverFromMongoException)
 }

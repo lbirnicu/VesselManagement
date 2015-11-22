@@ -3,12 +3,14 @@ package controllers
 import play.api.mvc._
 import play.modules.reactivemongo.MongoController
 
+/**
+  * Entry point in the application.
+  *
+  * Mixes in [[VesselOperations]] trait to have access to exposed CRUD operations
+  */
 object Application
   extends Controller
-  with AddVessel
-  with FetchVessel
-  with UpdateVessel
-  with DeleteVessel
+  with VesselOperations
   with MongoController {
 
   def index = Action {
@@ -16,6 +18,6 @@ object Application
   }
 
   def options(path: String) = Action {
-    Ok("")
+    NoContent.as("application/json")
   }
 }

@@ -55,7 +55,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="site-heading">
-                    <h1>Vessel Management</h1>
+                    <h1>Vessels Management</h1>
                     <hr class="small">
                 </div>
             </div>
@@ -63,20 +63,18 @@
     </div>
 </header>
 
-<!-- Vessel Creation Form -->
+<!-- Vessel Create/Update Form -->
 <div class="container">
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <h2>Add a new vessel</h2>
-
+        <div class="col-lg-8 col-lg-offset-3 col-md-10 col-md-offset-1">
             <form name="addVesselForm" novalidate>
                 <div class="row control-group">
                     <div class="form-group col-xs-8 controls">
                         <label>Vessel Name</label>
-                        <input type="text" class="form-control" placeholder="Hansa Carrier"
+                        <input type="text" maxlength="60" class="form-control" placeholder="Hansa Carrier"
                                ng-model="name" id="name" name="name" required>
                          <span style="color:red" ng-show="addVesselForm.name.$dirty && addVesselForm.name.$invalid">
-                            <span ng-show="addVesselForm.name.$error.required">Please enter the vessel name.</span>
+                            <span ng-show="addVesselForm.name.$error.required">Please enter the vessel name</span>
                          </span>
                     </div>
                 </div>
@@ -84,34 +82,37 @@
                     <div class="form-group col-xs-8 controls">
                         <label>Vessel Width (in meters)</label>
                         <input type="number" class="form-control" placeholder="20.05" ng-model="width"
-                               id="width" name="width" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+                               id="width" name="width" min="0" max="100" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
                         <span style="color:red" ng-show="addVesselForm.width.$dirty && addVesselForm.width.$invalid">
-                            <span ng-show="addVesselForm.width.$error.required">Please enter the vessel width.</span>
-                            <span style="color:red"
-                                  ng-show="addVesselForm.width.$error.pattern">Invalid width value, it may contain 2 decimals</span>
-                         </span>
+                            <span ng-show="addVesselForm.width.$error.required">Please enter the vessel width</span>
+                            <span ng-show="addVesselForm.width.$error.pattern">Width may contain 2 decimals and must be >= 0</span>
+                            <span ng-show="addVesselForm.width.$error.max">Maximum width may be 100</span>
+                        </span>
                     </div>
                 </div>
                 <div class="row control-group">
                     <div class="form-group col-xs-8 controls">
                         <label>Vessel Length (in meters)</label>
                         <input type="number" class="form-control" placeholder="200.05" ng-model="length" id="length"
-                               name="length" required data-validation-required-message="Please enter the body.">
-
-                        <p style="color:red" class="help-block text-danger"></p>
-                             <span style="color:red" class="help-block text-danger"
-                                   ng-show="addVesselForm.length.$error.pattern">Invalid length value, can contain 2 decimals</span>
+                               name="length" min="0" max="1000" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+                        <span style="color:red" ng-show="addVesselForm.length.$dirty && addVesselForm.length.$invalid">
+                            <span ng-show="addVesselForm.length.$error.required">Please enter the vessel length</span>
+                            <span ng-show="addVesselForm.length.$error.pattern">Length may contain 2 decimals and must be >= 0</span>
+                            <span ng-show="addVesselForm.length.$error.max">Maximum length value can be 1000</span>
+                        </span>
                     </div>
                 </div>
                 <div class="row control-group">
                     <div class="form-group col-xs-8 controls">
                         <label>Vessel Draft (in meters)</label>
                         <input type="number" class="form-control" placeholder="9.5" ng-model="draft" id="draft"
-                               name="draft" required data-validation-required-message="Please enter the body.">
-
-                        <p style="color:red" class="help-block text-danger"></p>
-                            <span style="color:red" class="help-block text-danger"
-                                  ng-show="addVesselForm.draft.$error.pattern">Invalid draft value, can contain 2 decimals</span>
+                               name="draft" min="0" max="50" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" required>
+                        <span style="color:red"
+                              ng-show="addVesselForm.draft.$dirty && addVesselForm.draft.$invalid">
+                            <span ng-show="addVesselForm.draft.$error.required">Please enter the vessel draft</span>
+                            <span ng-show="addVesselForm.draft.$error.pattern">Draft may contain 2 decimals and must be >= 0</span>
+                            <span ng-show="addVesselForm.draft.$error.max">Maximum daft value can be 50</span>
+                        </span>
                     </div>
                 </div>
                 <div class="row control-group">
@@ -122,10 +123,10 @@
                                ng-pattern="/^[-+]?([1-8]?\d(\.\d{1,6})?|90(\.0+)?)$/"
                                data-validation-required-message="Please enter the body.">
 
-                        <p style="color:red" class="help-block text-danger"></p>
-                             <span style="color:red" class="help-block text-danger"
-                                   ng-show="addVesselForm.latitude.$error.pattern">Invalid latitude coordinate value.
-                                 Please introduce a value between -90 to 90, with 6 decimals maximum</span>
+                     <span style="color:red" ng-show="addVesselForm.latitude.$dirty && addVesselForm.latitude.$invalid">
+                         <span ng-show="addVesselForm.latitude.$error.required">Please enter the vessel latitude.</span>
+                         <span ng-show="addVesselForm.latitude.$error.pattern">Please introduce a value between -90 to 90, with 6 decimals maximum</span>
+                     </span>
                     </div>
                 </div>
                 <div class="row control-group">
@@ -133,44 +134,50 @@
                         <label>Vessel Longitude Coordinate</label>
                         <input type="number" class="form-control" placeholder="-9.3224"
                                ng-model="longitude" id="longitude" name="longitude" required
-                               ng-pattern="/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d{1,6})?)$/"
-                               data-validation-required-message="Please enter the body.">
-                        <span style="color:red" class="help-block text-danger"></span>
-                        <span style="color:red" class="help-block text-danger"
-                              ng-show="addVesselForm.longitude.$error.pattern">Invalid longitude coordinate value.
-                            Please introduce a value between -180 to 180, with 6 decimals maximum</span>
+                               ng-pattern="/^[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d{1,6})?)$/">
+                        <span style="color:red" ng-show="addVesselForm.longitude.$dirty && addVesselForm.longitude.$invalid">
+                            <span ng-show="addVesselForm.longitude.$error.required">Please enter the vessel longitude.</span>
+                            <span ng-show="addVesselForm.longitude.$error.pattern">Invalid longitude coordinate value.
+                                Please introduce a value between -180 to 180, with 6 decimals maximum</span>
+                        </span>
                     </div>
                 </div>
-                <br>
                 <div class="row">
-                    <div class="form-group col-xs-8">
-                        <!--TODO-->
-                        <input type="submit"
-                               ng-disabled="(addVesselForm.name.$pristine || (addVesselForm.name.$dirty && addVesselForm.name.$invalid)) ||
-                               (addVesselForm.width.$dirty && addVesselForm.width.$invalid) ||
-                               (addVesselForm.length.$dirty && addVesselForm.length.$invalid) ||
-                               (addVesselForm.draft.$dirty && addVesselForm.draft.$invalid)"
-                               ng-click="addVessel()" class="btn btn-default"/>
-                        </div>
+                    <div class="form-group col-md-2 col-md-offset-4">
+                        <a href="#" ng-disabled="((addVesselForm.name.$pristine && addVesselForm.name.$invalid) || (addVesselForm.name.$dirty && addVesselForm.name.$invalid)) ||
+                           ((addVesselForm.width.$pristine && addVesselForm.width.$invalid) || (addVesselForm.width.$dirty && addVesselForm.width.$invalid)) ||
+                           ((addVesselForm.length.$pristine && addVesselForm.length.$invalid) || (addVesselForm.length.$dirty && addVesselForm.length.$invalid)) ||
+                           ((addVesselForm.draft.$pristine && addVesselForm.draft.$invalid) || (addVesselForm.draft.$dirty && addVesselForm.draft.$invalid)) ||
+                           ((addVesselForm.latitude.$pristine && addVesselForm.latitude.$invalid) || (addVesselForm.latitude.$dirty && addVesselForm.latitude.$invalid)) ||
+                           ((addVesselForm.longitude.$pristine && addVesselForm.longitude.$invalid) || (addVesselForm.longitude.$dirty && addVesselForm.longitude.$invalid))"
+                           ng-click="addVessel()" class="btn btn-primary btn-block">Add</a>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <a ng-disabled="((addVesselForm.name.$pristine && addVesselForm.name.$invalid) || (addVesselForm.name.$dirty && addVesselForm.name.$invalid)) ||
+                           ((addVesselForm.width.$pristine && addVesselForm.width.$invalid) || (addVesselForm.width.$dirty && addVesselForm.width.$invalid)) ||
+                           ((addVesselForm.length.$pristine && addVesselForm.length.$invalid) || (addVesselForm.length.$dirty && addVesselForm.length.$invalid)) ||
+                           ((addVesselForm.draft.$pristine && addVesselForm.draft.$invalid) || (addVesselForm.draft.$dirty && addVesselForm.draft.$invalid)) ||
+                           ((addVesselForm.latitude.$pristine && addVesselForm.latitude.$invalid) || (addVesselForm.latitude.$dirty && addVesselForm.latitude.$invalid)) ||
+                           ((addVesselForm.longitude.$pristine && addVesselForm.longitude.$invalid) || (addVesselForm.longitude.$dirty && addVesselForm.longitude.$invalid)) ||
+                           (id === undefined)"
+                           ng-click="updateVessel(id)" class="btn btn-primary btn-block">Update</a>
+                    </div>
+                    <br>
+                    <br>
+                    <div ng-class="operationClass" class="text-center alert col-md-8 fade in" ng-show="operationAlert">
+                        <a href="#" ng-click="operationAlert=false" class="close" aria-label="close">&times;</a>
+                        <strong>{{ alertMessage }}</strong>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
+<br>
+<br>
+<br>
 <!-- Vessel List -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <div ng-repeat="vessel1 in vessels">
-                <h3>
-                    {{vessel1.name}}
-                </h3>
-                <hr>
-            </div>
-        </div>
-    </div>
-</div>
+<div ng-include="'list.html'"></div>
 
 <hr>
 <!-- Footer -->
