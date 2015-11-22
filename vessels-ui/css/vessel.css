@@ -1,6 +1,6 @@
 body {
   font-family: 'Lora', 'Times New Roman', serif;
-  font-size: 20px;
+  font-size: 18px;
   color: #404040;
 }
 p {
@@ -102,19 +102,19 @@ p {
   -moz-background-size: cover;
   background-size: cover;
   -o-background-size: cover;
-  margin-bottom: 50px;
+  margin-bottom: 0px;
 }
 .intro-header .site-heading,
 .intro-header .post-heading,
 .intro-header .page-heading {
-  padding: 100px 0 50px;
+  padding: 100px 0 5px;
   color: white;
 }
 @media only screen and (min-width: 768px) {
   .intro-header .site-heading,
   .intro-header .post-heading,
   .intro-header .page-heading {
-    padding: 150px 0;
+    padding: 105px 0;
   }
 }
 .intro-header .site-heading,
@@ -152,7 +152,7 @@ p {
 .intro-header .post-heading .subheading {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 24px;
-  margin: 10px 0 30px;
+  margin: 10px 0 0px;
   font-weight: 600;
 }
 .intro-header .post-heading .meta {

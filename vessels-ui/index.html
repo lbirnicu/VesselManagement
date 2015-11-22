@@ -50,7 +50,7 @@
     </div>
 </nav>
 
-<header class="intro-header" style="background-image: url('img/vessel4.jpg')">
+<header class="intro-header" style="background-image: url('img/vessel41.jpg');height: 400px;">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -177,7 +177,55 @@
 <br>
 <br>
 <!-- Vessel List -->
-<div ng-include="'list.html'"></div>
+<table id="vessel_list" class="table table-hover table-condensed">
+    <thead>
+    <tr class="row">
+        <th class="col-md-1">Name</th>
+        <th class="col-md-1">Width</th>
+        <th class="col-md-1">Length</th>
+        <th class="col-md-1">Draft</th>
+        <th class="col-md-1">Latitude</th>
+        <th class="col-md-1 ">Longitude</th>
+        <th class="col-md-1"></th>
+        <th class="col-md-1"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="vessel in vessels" class="row">
+        <td>
+            {{ vessel.name }}
+        </td>
+        <td>
+            {{ vessel.dimension.width }}
+        </td>
+        <td>
+            {{ vessel.dimension.length }}
+        </td>
+        <td>
+            {{ vessel.dimension.draft }}
+        </td>
+        <td>
+            {{ vessel.coordinates.latitude }}
+        </td>
+        <td>
+            {{ vessel.coordinates.longitude }}
+        </td>
+        <td>
+            <a href="#" ng-click="editVessel(vessel._id)" class="btn btn-success btn-block pull-right"
+               id="btn_vessel_update">Edit</a>
+        </td>
+        <td>
+            <a href="#" ng-click="deleteVessel(vessel._id, vessel.name)" class="btn btn-danger btn-block pull-right"
+               id="btn_vessel_delete">Delete</a>
+        </td>
+    </tr>
+    <tr ng-hide="vessels.length" class="row">
+        <td colspan="12">
+            <p class="text-center">No Vessels Found</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 <hr>
 <!-- Footer -->
